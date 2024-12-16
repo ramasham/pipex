@@ -6,29 +6,51 @@
 /*   By: rsham <rsham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 16:52:18 by rsham             #+#    #+#             */
-/*   Updated: 2024/11/13 12:56:10 by rsham            ###   ########.fr       */
+/*   Updated: 2024/12/16 19:27:11 by rsham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error(void)
+static char	*check_argv(char *cmd)
 {
-	perror("");
-	exit(1);
+	if (cmd == NULL || is_whitespace(cmd) == 1)
+		return (NULL);
+	return (cmd);
 }
 
-void	ft_free(char **str)
+static char	**get_path_dirs(char **envp)
 {
-	int	i;
+	char	**paths;
+	int		i;
 
 	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
+	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
+	if (!envp[i])
+		return (NULL);
+	paths = ft_split(envp[i] + 5, ':');
+	if (!paths)
+		return (NULL);
+	return (paths);
+}
+
+static char	*join_path_and_cmd(char *path, char *cmd)
+{
+	char	*part_path;
+	char	*full_path;
+
+	part_path = ft_strjoin(path, "/");
+	if (!part_path)
+		return (NULL);
+	full_path = ft_strjoin(part_path, cmd);
+	if (!full_path)
+	{
+		free(part_path);
+		return (NULL);
 	}
-	free(str);
+	free(part_path);
+	return (full_path);
 }
 
 char	*get_cmd_path(char *cmd, char **envp)
@@ -36,43 +58,41 @@ char	*get_cmd_path(char *cmd, char **envp)
 	char	**paths;
 	char	*path;
 	int		i;
-	char	*part_path;
 
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == NULL)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	paths = get_path_dirs(envp);
+	if (!paths)
+		return (NULL);
+	i = -1;
+	while (paths[++i])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
+		path = join_path_and_cmd(paths[i], cmd);
+		if (!path)
+			return (NULL);
+		if (path && access(path, F_OK) == 0)
 		{
 			ft_free(paths);
 			return (path);
 		}
 		free(path);
-		i++;
 	}
 	ft_free(paths);
 	return (NULL);
 }
 
-int	execute(char *argv, char **envp, int *fd)
+int	execute(char *argv, char **envp)
 {
 	char	**cmd;
 	char	*path;
 
+	if (check_argv(argv) == NULL)
+		exit(1);
 	cmd = ft_split(argv, ' ');
 	path = get_cmd_path(cmd[0], envp);
 	if (!path)
 	{
-		// close(fd[0]);
-		// close(fd[1]);
 		ft_free(cmd);
-		error();
+		cmd_error(argv);
+		return (-1);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{

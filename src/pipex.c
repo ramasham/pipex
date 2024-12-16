@@ -6,7 +6,7 @@
 /*   By: rsham <rsham@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 12:52:33 by rsham             #+#    #+#             */
-/*   Updated: 2024/11/14 18:06:04 by rsham            ###   ########.fr       */
+/*   Updated: 2024/12/16 18:05:44 by rsham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	child_process(char **argv, char **envp, int *fd)
 	dup2(fd[1], STDOUT_FILENO);
 	close(infile);
 	close(fd[1]);
-	exec = execute(argv[2], envp, fd);
+	exec = execute(argv[2], envp);
 	if (exec == -1)
 		error();
-	exit(0);
+	exit(1);
 }
 
 void	child_process2(char **argv, char **envp, int *fd)
@@ -53,10 +53,25 @@ void	child_process2(char **argv, char **envp, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	close(outfile);
 	close(fd[0]);
-	exec = execute(argv[3], envp, fd);
+	exec = execute(argv[3], envp);
 	if (exec == -1)
 		error();
-	exit(0);
+	exit(1);
+}
+
+static void	ft_close(int *fd)
+{
+	close(fd[1]);
+	close(fd[0]);
+	exit(1);
+}
+
+static void	wait_parent(int *fd)
+{
+	close(fd[0]);
+	close(fd[1]);
+	wait(NULL);
+	wait(NULL);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -66,23 +81,21 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc == 5)
 	{
-		if (access(argv[1], R_OK) == -1 || ((access(argv[4], F_OK) == 0)
-				&& (access(argv[4], W_OK) == -1)))
-			error();
 		if (pipe(fd) == -1)
 			error();
 		pid = fork();
 		if (pid == -1)
-			return (close(fd[0]), close(fd[1]), 0);
+			ft_close(fd);
 		if (pid == 0)
 			child_process(argv, envp, fd);
 		pid = fork();
 		if (pid == -1)
-			return (close(fd[0]), close(fd[1]), 0);
+			ft_close(fd);
 		if (pid == 0)
 			child_process2(argv, envp, fd);
-		return (close(fd[0]), close(fd[1]), wait(NULL), wait(NULL), 0);
+		wait_parent(fd);
+		return (0);
 	}
 	write(2, "Error\n", 6);
-	return (0);
+	exit (1);
 }
