@@ -1,9 +1,9 @@
 # 🔗 Pipex - Recreating Shell Pipelines
 
 ### 📝 Project Overview
-    Pipex is a 42 project that recreates the behavior of shell pipelines (|). It takes input from a file, processes it through a series of commands, and outputs the result to another file, just like in a Unix shell!
-
-In a Unix shell, a pipeline allows the output of one command to be used as input for another. For example:
+Pipex is a 42 project that recreates the behavior of shell pipelines (|). It takes input from a file, processes it through a series of commands, and outputs the result to another file, just like in a Unix shell!
+In a Unix shell, a pipeline allows the output of one command to be used as input for another.
+For example:
 `cat infile | grep "42" | wc -l > outfile
 
 ### ⚙️ How It Works:
