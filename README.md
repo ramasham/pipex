@@ -7,10 +7,10 @@ For example:
 `cat infile | grep "42" | wc -l > outfile
 
 ### ⚙️ How It Works:
-Pipex takes four or more arguments:
-    ./pipex infile "cmd1" "cmd2" outfile
-Equivalent to running:
-    < infile cmd1 | cmd2 > outfile
+Pipex takes four or more arguments: <br>
+    ./pipex infile "cmd1" "cmd2" outfile <br>
+Equivalent to running: <br>
+    < infile cmd1 | cmd2 > outfile <br>
 
 ### 🔁 Process Flow:
 1️⃣ Read input from `infile` <br>
@@ -18,11 +18,11 @@ Equivalent to running:
 3️⃣ Execute `cmd2`, taking input from the first command's output <br>
 4️⃣ Write the final output to `outfile`
 
-### Diagram Representation
+### ✏️ Diagram Representation:
 [ infile ] → [ cmd1 ] → [ pipe ] → [ cmd2 ] → [ outfile ]
 
 ### 🛠️ System Calls Used
     - pipe() → Creates a communication channel between processes
     - fork() → Spawns child processes to execute commands
     - dup2() → Redirects input and output for commands
-    - execve() → Replaces the current process with a new command execu
+    - execve() →  Replaces process with command execution
