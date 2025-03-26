@@ -11,13 +11,13 @@ Pipex takes four or more arguments: <br>
     ./pipex infile "cmd1" "cmd2" outfile ➡️ < infile cmd1 | cmd2 > outfile <br>
 
 ### 🔁 Process Flow:
-1️⃣ Read input from `infile` <br>
-2️⃣ Execute `cmd1`, passing its output through a pipe <br>
-3️⃣ Execute `cmd2`, taking input from the first command's output <br>
-4️⃣ Write the final output to `outfile`
+    1️⃣ Read input from `infile` <br>
+    2️⃣ Execute `cmd1`, passing its output through a pipe <br>
+    3️⃣ Execute `cmd2`, taking input from the first command's output <br>
+    4️⃣ Write the final output to `outfile`
 
 ### ✏️ Diagram Representation:
-[ infile ] → [ cmd1 ] → [ pipe ] → [ cmd2 ] → [ outfile ]
+    [ infile ] → [ cmd1 ] → [ pipe ] → [ cmd2 ] → [ outfile ]
 
 ### 🛠️ System Calls Used
     - pipe() → Creates a communication channel between processes
