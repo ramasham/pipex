@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsham <rsham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rsham <rsham@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 16:52:18 by rsham             #+#    #+#             */
-/*   Updated: 2024/12/16 19:27:11 by rsham            ###   ########.fr       */
+/*   Created: 2025/03/27 02:18:24 by rsham             #+#    #+#             */
+/*   Updated: 2025/03/27 02:22:29 by rsham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char	*check_argv(char *cmd)
+char    *check_argv(char *cmd)
 {
 	if (cmd == NULL || is_whitespace(cmd) == 1)
 		return (NULL);
@@ -77,28 +77,4 @@ char	*get_cmd_path(char *cmd, char **envp)
 	}
 	ft_free(paths);
 	return (NULL);
-}
-
-int	execute(char *argv, char **envp)
-{
-	char	**cmd;
-	char	*path;
-
-	if (check_argv(argv) == NULL)
-		exit(1);
-	cmd = ft_split(argv, ' ');
-	path = get_cmd_path(cmd[0], envp);
-	if (!path)
-	{
-		ft_free(cmd);
-		cmd_error(argv);
-		return (-1);
-	}
-	if (execve(path, cmd, envp) == -1)
-	{
-		ft_free(cmd);
-		free(path);
-		return (-1);
-	}
-	return (0);
 }

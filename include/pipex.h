@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rsham <rsham@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rsham <rsham@student.42amman.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 16:42:48 by rsham             #+#    #+#             */
-/*   Updated: 2024/12/15 13:50:04 by rsham            ###   ########.fr       */
+/*   Updated: 2025/03/27 02:22:38 by rsham            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ char	*get_cmd_path(char *cmd, char **envp);
 void	cmd_error(char *argv);
 int		is_whitespace(const char *cmd);
 int		ft_isspace(int ch);
+char    *check_argv(char *cmd);
+
 
 #endif

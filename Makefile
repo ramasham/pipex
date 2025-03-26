@@ -5,7 +5,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I./include
 
-SRCS = src/pipex.c utils/utils.c utils/erros.c \
+SRCS = src/parent.c src/child_process.c utils/get_cmd_path.c utils/erros.c \
 
 OBJ = $(SRCS:.c=.o)
 
