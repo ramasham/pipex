@@ -8,13 +8,13 @@ In a Unix shell, a pipeline allows the output of one command to be used as input
     cat infile | grep "42" | wc -l > outfile
 
 ### ⚙️ How It Works:
-    Pipex takes four or more arguments: <br>
-        ./pipex infile "cmd1" "cmd2" outfile ➡️ < infile cmd1 | cmd2 > outfile <br>
+    Pipex takes four or more arguments: 
+        ./pipex infile "cmd1" "cmd2" outfile ➡️ < infile cmd1 | cmd2 > outfile 
 
 ### 🔁 Process Flow:
-    1️⃣ Read input from `infile` <br>
-    2️⃣ Execute `cmd1`, passing its output through a pipe <br>
-    3️⃣ Execute `cmd2`, taking input from the first command's output <br>
+    1️⃣ Read input from `infile`
+    2️⃣ Execute `cmd1`, passing its output through a pipe 
+    3️⃣ Execute `cmd2`, taking input from the first command's output 
     4️⃣ Write the final output to `outfile`
 
 ### ✏️ Diagram Representation:
