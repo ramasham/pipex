@@ -8,9 +8,7 @@ For example:
 
 ### ⚙️ How It Works:
 Pipex takes four or more arguments: <br>
-    ./pipex infile "cmd1" "cmd2" outfile <br>
-Equivalent to running: <br>
-    < infile cmd1 | cmd2 > outfile <br>
+    ./pipex infile "cmd1" "cmd2" outfile ➡️ < infile cmd1 | cmd2 > outfile <br>
 
 ### 🔁 Process Flow:
 1️⃣ Read input from `infile` <br>
